@@ -26,9 +26,36 @@ public class LoginController extends DefaultRestfulController<User, String>{
 
     public static Map<Object, Object> data = new HashMap<Object, Object>();
 
+
+    /**
+     * 用户详情
+     *
+     * @param userVO
+     * @return
+     */
+    @RequestMapping(value = "detail", method = RequestMethod.POST)
+    public String detail(@RequestBody UserVO userVO) {
+        log.info("find detail start");
+        VueCommonRespVO retval = new VueCommonRespVO();
+        Boolean flag = false;
+        User user = loginService.findById(userVO.getId());
+        data.clear();
+        data.put("user", user);
+        retval.setData(data);
+        if(flag) {
+            retval.setCode(VueCommonRespVO.CODE_SUCCESS);
+            retval.setMsg("查找成功");
+        }else {
+            retval.setCode(VueCommonRespVO.CODE_FAILURE);
+            retval.setMsg("查找失败");
+        }
+        log.info("find detail end");
+        return JSONObject.toJSONString(retval);
+    }
+
     /**
      * 用户登录
-     * 
+     *
      * @param userVO
      * @return
      */
