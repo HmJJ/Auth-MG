@@ -13,9 +13,8 @@ const router = new Router({
 //   iView.LoadingBar.start()
 // })
 
-// router.afterEach(to => {
-//   iView.LoadingBar.finish()
-//   window.scrollTo(0, 0)
-// })
+router.afterEach((to, from, next) => {
+  document.title = to.name
+})
 
 export default router
