@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <img src="@/assets/logo.png">
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
@@ -80,6 +81,7 @@
         </a>
       </li>
     </ul>
+    <Button type="success" long @click="login">Login</Button>
   </div>
 </template>
 
@@ -90,12 +92,17 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  methods: {
+    login () {
+      this.$router.push({path: '/login'})
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="less">
 h1, h2 {
   font-weight: normal;
 }
