@@ -46,9 +46,9 @@
             <i-Input v-model='formValidate.desc' type='textarea' :autosize='{minRows: 2,maxRows: 5}' placeholder='Enter something...'></i-Input>
         </FormItem>
         <FormItem>
-            <Button type='primary' @click='handleSubmit("formValidate")'>Submit</Button>
-            <Button @click='handleReset("formValidate")' style='margin-left: 8px'>Reset</Button>
-            <Button type="primary" @click="back()">Back</Button>
+            <Button type='primary' @click='handleSubmit("formValidate")' style='margin-right: 8px'>Submit</Button>
+            <Button @click='handleReset("formValidate")'>Reset</Button>
+            <Button type="primary" @click="back()" style='margin-left: 8px'>Back</Button>
         </FormItem>
     </Form>
 </template>
