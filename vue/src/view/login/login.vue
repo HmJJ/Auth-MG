@@ -21,7 +21,7 @@
             <i-Col span='24'>
               <FormItem>
                 <Button type="primary" long @click="handleSubmit('formInline')">登录</Button>
-                <!-- <a type="primary" @click="register()">去注册</a> -->
+                <a type="primary" @click="register()">去注册</a>
               </FormItem>
             </i-Col>
           </Form>
@@ -80,27 +80,5 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.login {
-  width: 100%;
-  height: 100%;
-  background: url('~@/assets/images/bz_04.jpg') no-repeat center;
-  background-size: cover;
-  position: relative
-}
-.loginPart {
-  position: relative;
-  width: 21%;
-  height: 250px;
-  float: right;
-  margin-right: 10%;
-  margin-top: 5%;
-  text-align: left;
-  Button {
-    width: 250px
-  }
-}
-.loginInfo {
-  width: 100%;
-  margin-top: 5%
-}
+  @import './login.less';
 </style>
