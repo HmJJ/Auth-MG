@@ -1,84 +1,85 @@
+<style lang="less">
+  @import './login.less';
+</style>
+
 <template>
-  <div class='login'>
-    <Card class='loginPart' icon="md-log-in" title="欢迎登录" :bordered="true">
-      <div class='loginInfo'>
-        <Row>
-          <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
-            <i-Col span='24'>
-              <FormItem prop="user">
-                <i-Input type="text" style="width: 250px" v-model="formInline.user" placeholder="Username">
-                  <Icon type="ios-person-outline" slot="prepend"></Icon>
-                </i-Input>
-              </FormItem>
-            </i-Col>
-            <i-Col span='24'>
-              <FormItem prop="password">
-                <i-Input type="password" style="width: 250px" v-model="formInline.password" placeholder="Password">
-                  <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                </i-Input>
-              </FormItem>
-            </i-Col>
-            <i-Col span='24'>
-              <FormItem>
-                <Button type="primary" long @click="handleSubmit('formInline')">登录</Button>
-                <a type="primary" @click="register()">去注册</a>
-              </FormItem>
-            </i-Col>
-          </Form>
-        </Row>
-      </div>
-    </Card>
+  <div class="login" @keydown.enter="handleLogin">
+    <div class="login-con">
+      <Card icon="log-in" title="欢迎登录" :bordered="false">
+        <div class="form-con">
+          <login-form @on-success-valid="handleSubmit"></login-form>
+        </div>
+        <Dropdown trigger="click" @on-click="selectLang">
+          <a href="javascript:void(0)">
+            {{title}}:{{languageType}}
+            <Icon type="arrow-down-b"></Icon>
+          </a>
+          <DropdownMenu slot="list">
+            <DropdownItem v-for="(value, key) in localList" :name="key" :key="`lang-${key}`">{{ value }}</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </Card>
+    </div>
   </div>
 </template>
+
 <script>
+import LoginForm from '_c/login-form'
+import { mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      formInline: {
-        user: '',
-        password: ''
+      langList: {
+        'ja_JP': '言語',
+        'en_US': 'Lang',
+        'zh_CN': '语言'
       },
-      ruleInline: {
-        user: [
-          {
-            required: true,
-            message: '请输入用户名.',
-            trigger: 'blur'
-          }
-        ],
-        password: [
-          {
-            required: true,
-            message: '请输入密码.',
-            trigger: 'blur'
-          },
-          {
-            type: 'string',
-            min: 6,
-            message: '密码不得少于6位.',
-            trigger: 'blur'
-          }
-        ]
-      }
+      localList: {
+        'ja_JP': '日本語',
+        'en_US': 'English',
+        'zh_CN': '中文简体'
+      },
+      title: 'language',
+      languageType: 'Default(中文简体)'
+    }
+  },
+  components: {
+    LoginForm,
+    init () {
+      this.$i18n.locale = 'zh_CN'
     }
   },
   methods: {
-    handleSubmit(name) {
-      this.$refs[name].validate(valid => {
-        if (valid) {
-          this.$Message.success('Success!')
-        } else {
-          this.$Message.error('Fail!')
-        }
+    ...mapActions([
+      'handleLogin',
+      'getUserInfo'
+    ]),
+    handleSubmit ({ username, password }) {
+      this.handleLogin({ username, password }).then(res => {
+        this.getUserInfo().then(res => {
+          this.$router.push({
+            name: 'home'
+          })
+        })
       })
     },
-    register() {
-      this.$router.push({ path: '/register' })
+    selectLang (name) {
+      this.title = this.langList[name]
+      this.languageType = this.localList[name]
+      this.$i18n.locale = name
+      if (name === 'zh_CN') {
+        this.$Message.success('部分元素需要页面刷新后改变语言，但不影响使用。')
+      } else if (name === 'ja_JP') {
+        this.$Message.success('部分元素需要页面刷新后改变语言，但不影响使用。')
+      } else {
+        this.$Message.success('Some elements will not change their language before page refreshing, do not affect usage effect.')
+      }
+      this.$emit('on-lang-change', name)
     }
   }
 }
 </script>
 
-<style lang='less' scoped>
-  @import './login.less';
+<style>
+
 </style>

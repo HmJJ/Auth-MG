@@ -7,7 +7,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @ImportResource(locations = {"classpath*:/beans/**/*.xml"})
 @ComponentScan(basePackages= {"com.springboot"})
@@ -22,11 +21,5 @@ public class ApplicationBoot extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(ApplicationBoot.class);
 	}
-	
-	@RequestMapping(value= {"/",""})
-	public String search() {
-		return "index";
-	}
-	
 	
 }
